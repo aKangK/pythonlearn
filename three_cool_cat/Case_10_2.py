@@ -1,0 +1,10 @@
+newfile=r'C:\Users\二花\Desktop\python.test\t1.txt'
+print(newfile)
+b_new_file=open(newfile,'w')
+t_n=b_new_file.write('hello world!')
+b_new_file.close()
+print('共写入%d字节'%(t_n))
+b_new_file=open(newfile,'r')
+tt=b_new_file.read()
+print(tt)
+b_new_file.close()

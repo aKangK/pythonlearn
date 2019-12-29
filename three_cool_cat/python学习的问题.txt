@@ -1,0 +1,27 @@
+#1、如何判断input语句输入的是否为数字？
+n=input('请输入一个整数')      #输入信息
+print(type(n))                 #判断输入信息的类型
+if n.isdigit():                #输入的是整数，则输出数字和类型
+    n=int(n)
+    print('输入的为整数 %d'%(n))
+    print(type(n))
+else:                          #输入的不是数字，输出非法输入
+    print('输入的不是数字')
+
+
+#2、如何将input进去的数字放入一个列表中？
+li = list(map(int,input().split()))
+print(li)
+#=======或========
+>>> x=input()
+1,2,3,4
+>>> xlist=x.split(",")
+>>> print(xlist)
+['1', '2', '3', '4']
+>>> xlist = [int(xlist[i]) for i in range(len(xlist))] #for循环，把每个字符转成int值
+>>> print(xlist)
+[1, 2, 3, 4]
+
+#3、类中的函数私有，试验失败
+
+#4、案例10.9，主程序的命令不懂
