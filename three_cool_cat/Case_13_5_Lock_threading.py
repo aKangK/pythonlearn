@@ -52,8 +52,11 @@ class MThread(threading.Thread):
         threading.Thread.__init__(self)
         self.target=target
         self.args=args
+        self.threadLock=threading.Lock()
     def run(self):
+        self.threadLock.acquire()
         self.target(*self.args)
+        self.threadLock.release()
 
 if __name__=='__main__':
     class_do_list=[]
