@@ -1,0 +1,4 @@
+>>> from Case_14_2_testfunction1 import *
+>>> sums(1,2,3,4,5)
+15
+>>> sums('s',2,3,4,5)
