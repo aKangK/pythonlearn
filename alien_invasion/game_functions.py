@@ -1,6 +1,7 @@
 import sys
 import pygame
 from bullet import Bullet
+from alien import Alien
 
 def check_keydown_events(event,ai_settings,screen,ship,bullets):
 	"""响应按键"""
@@ -38,7 +39,7 @@ def check_events(ai_settings,screen,ship,bullets):
 
 
 
-def update_screen(ai_settings,screen,ship,bullets):
+def update_screen(ai_settings,screen,ship,aliens,bullets):
 	"""更新屏幕上的图像，并切换到新的屏幕"""
 	#每次循环都会重绘图像
 	screen.fill(ai_settings.bg_color)
@@ -46,6 +47,7 @@ def update_screen(ai_settings,screen,ship,bullets):
 	for bullet in bullets.sprites():
 		bullet.draw_bullet()
 	ship.blitme()
+	aliens.draw(screen)
 
 	#让最近绘制的屏幕可见
 	pygame.display.flip()
@@ -60,3 +62,36 @@ def update_bullets(bullets):
 		if bullet.rect.bottom<=0:
 			bullets.remove(bullet)
 
+def get_number_aliens_x(ai_settings,alien_width):
+	"""计算每行可容纳多少个外星人"""
+	available_space_x=ai_settings.screen_width - 2 * alien_width
+	number_aliens_x=int(available_space_x / (2 * alien_width))
+	return number_aliens_x
+
+def get_number_row(ai_settings,ship_height,alien_height):
+	"""计算屏幕可容纳多少行外星人"""
+	available_space_y=(ai_settings.screen_height - (3 * alien_height) - ship_height)
+	number_row=int(available_space_y / (2 * alien_height))
+	return number_row
+
+def create_alien(ai_settings,screen,aliens,alien_number,row_number):
+	"""创建一个外星人并将其存放在当前行"""
+	alien=Alien(ai_settings,screen)
+	alien_width=alien.rect.width
+	alien_height=alien.rect.height
+	alien.x=alien_width + 2 * alien_width * alien_number
+	alien.rect.x=alien.x
+	alien.y=alien_height + 2 * alien_height * row_number
+	alien.rect.y=alien.y 
+	aliens.add(alien)
+
+def create_fleet(ai_settings,screen,ship,aliens):
+	"""创建外星人群"""
+	alien=Alien(ai_settings,screen)
+	number_aliens_x=get_number_aliens_x(ai_settings,alien.rect.width)
+	number_row=get_number_row(ai_settings,ship.rect.height,alien.rect.height)
+
+	#创建外星人群
+	for row_number in range(number_row):
+		for alien_number in range(number_aliens_x):
+			create_alien(ai_settings,screen,aliens,alien_number,row_number)
